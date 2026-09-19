@@ -20,7 +20,52 @@ int beds[4][20];
 // queue for each specialty
 int queue[4] = {0, 0, 0, 0};
 
+// patient data arrays
+char patientName[MAX][50];
+int patientAge[MAX];
+int patientUrgency[MAX];
+int patientSpec[MAX];
+int patientAdmitted[MAX];
+int patientWard[MAX];
+int patientDays[MAX];
+double patientBill[MAX];
+int patientCount = 0;
+
 int main() {
-    printf("Smart Hospital Management System\n");
+    int choice;
+
+    while (1) {
+        printf("\n====================================================\n");
+        printf("     SMART HOSPITAL MANAGEMENT SYSTEM\n");
+        printf("====================================================\n");
+        printf("1. Register Patient\n");
+        printf("2. View Patient Bill\n");
+        printf("3. Sort by Triage\n");
+        printf("4. Summary Report\n");
+        printf("5. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Register patient -\n");
+                break;
+            case 2:
+                printf("View bill -\n");
+                break;
+            case 3:
+                printf("Sort triage -\n");
+                break;
+            case 4:
+                printf("Summary -\n");
+                break;
+            case 5:
+                printf("Goodbye!\n");
+                return 0;
+            default:
+                printf("Wrong choice\n");
+        }
+    }
+
     return 0;
 }

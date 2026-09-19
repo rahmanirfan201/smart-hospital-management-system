@@ -166,6 +166,68 @@ void printBill(int i) {
 }
 
 
+void sortByPriority() {
+    int i, j;
+    int tempAge, tempUrg, tempSpec, tempAdm, tempWard, tempDays;
+    double tempBill;
+    char tempName[50];
+
+    if (patientCount == 0) {
+        printf("No patients to sort\n");
+        return;
+    }
+
+    // bubble sort by urgency (3 first, then 2, then 1)
+    for (i = 0; i < patientCount - 1; i++) {
+        for (j = 0; j < patientCount - 1 - i; j++) {
+            if (patientUrgency[j] < patientUrgency[j + 1]) {
+                // swap all patient data
+                strcpy(tempName, patientName[j]);
+                strcpy(patientName[j], patientName[j + 1]);
+                strcpy(patientName[j + 1], tempName);
+
+                tempAge = patientAge[j];
+                patientAge[j] = patientAge[j + 1];
+                patientAge[j + 1] = tempAge;
+
+                tempUrg = patientUrgency[j];
+                patientUrgency[j] = patientUrgency[j + 1];
+                patientUrgency[j + 1] = tempUrg;
+
+                tempSpec = patientSpec[j];
+                patientSpec[j] = patientSpec[j + 1];
+                patientSpec[j + 1] = tempSpec;
+
+                tempAdm = patientAdmitted[j];
+                patientAdmitted[j] = patientAdmitted[j + 1];
+                patientAdmitted[j + 1] = tempAdm;
+
+                tempWard = patientWard[j];
+                patientWard[j] = patientWard[j + 1];
+                patientWard[j + 1] = tempWard;
+
+                tempDays = patientDays[j];
+                patientDays[j] = patientDays[j + 1];
+                patientDays[j + 1] = tempDays;
+
+                tempBill = patientBill[j];
+                patientBill[j] = patientBill[j + 1];
+                patientBill[j + 1] = tempBill;
+            }
+        }
+    }
+
+    printf("\nPatients sorted by priority:\n");
+    printf("----------------------------------------------------\n");
+    for (i = 0; i < patientCount; i++) {
+        printf("PAT-%d | %s | Age: %d | Urgency: %d | %s\n",
+            1001 + i, patientName[i], patientAge[i],
+            patientUrgency[i], specName[patientSpec[i] - 1]);
+    }
+    printf("----------------------------------------------------\n");
+}
+
+
 int main() {
     int choice;
 
@@ -175,7 +237,7 @@ int main() {
         printf("====================================================\n");
         printf("1. Register Patient\n");
         printf("2. View Patient Bill\n");
-        printf("3. Sort by Triage\n");
+        printf("3. Sort by Priority\n");
         printf("4. Summary Report\n");
         printf("5. Exit\n");
         printf("Enter choice: ");
@@ -200,7 +262,7 @@ int main() {
                 }
                 break;
             case 3:
-                printf("Sort triage -\n");
+                sortByPriority();
                 break;
             case 4:
                 printf("Summary -\n");

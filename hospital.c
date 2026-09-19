@@ -107,6 +107,65 @@ void calculateBill(int i) {
 }
 
 
+void printBill(int i) {
+    int spec = patientSpec[i] - 1;
+
+    calculateBill(i);
+
+    int waitTime = queue[spec] * timePerPatient[spec];
+
+    printf("\n=====================================================\n");
+    printf("       SMART HOSPITAL ADMISSION & BILL\n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("Patient ID              : PAT-%d\n", 1001 + i);
+    printf("Patient Name            : %s\n", patientName[i]);
+    printf("Age                     : %d Years", patientAge[i]);
+    if (patientAge[i] < 5 || patientAge[i] > 65) {
+        printf(" (15%% Subsidy Eligible)");
+    }
+    printf("\n");
+    printf("Specialty               : %s\n", specName[spec]);
+    if (patientAdmitted[i] == 1) {
+        printf("Assigned Ward           : %s\n", wardName[patientWard[i] - 1]);
+    }
+    printf("Urgency Level           : Level %d", patientUrgency[i]);
+    if (patientUrgency[i] == 1) printf(" (Normal)");
+    else if (patientUrgency[i] == 2) printf(" (Urgent)");
+    else if (patientUrgency[i] == 3) printf(" (Critical)");
+    printf("\n");
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("Base Consultation Fee   : LKR  %.2f\n", baseFee[spec]);
+    if (patientUrgency[i] == 2) {
+        printf("Emergency Surcharge     : LKR  %.2f (20%%)\n", baseFee[spec] * 0.20);
+    } else if (patientUrgency[i] == 3) {
+        printf("Emergency Surcharge     : LKR  %.2f (50%%)\n", baseFee[spec] * 0.50);
+    }
+    if (patientAdmitted[i] == 1) {
+        printf("Ward Stay Cost (%d Days) : LKR  %.2f\n", patientDays[i], patientDays[i] * wardRate[patientWard[i] - 1]);
+    }
+    printf("----------------------------------------------------------------------------------------\n");
+
+    double gross = patientBill[i];
+    if (patientAge[i] < 5 || patientAge[i] > 65) {
+        gross = patientBill[i] / 0.85;
+    }
+
+    printf("Gross Total Bill        : LKR  %.2f\n", gross);
+    if (patientAge[i] < 5 || patientAge[i] > 65) {
+        printf("Age Subsidy Discount    : LKR  -%.2f (15%%)\n", gross * 0.15);
+    }
+    printf("----------------------------------------------------------------------------------------\n");
+    printf("Final Payable Amount    : LKR  %.2f\n", patientBill[i]);
+    printf("Estimated Waiting Time  : ");
+    if (patientUrgency[i] == 3) {
+        printf("0.00 mins (Immediate Attention)\n");
+    } else {
+        printf("%.2f mins\n", (double)waitTime);
+    }
+    printf("=====================================================\n");
+}
+
+
 int main() {
     int choice;
 
@@ -127,7 +186,18 @@ int main() {
                 registerPatient();
                 break;
             case 2:
-                printf("View bill -\n");
+                if (patientCount == 0) {
+                    printf("No patients registered\n");
+                } else {
+                    int id;
+                    printf("Enter patient number (1 to %d): ", patientCount);
+                    scanf("%d", &id);
+                    if (id >= 1 && id <= patientCount) {
+                        printBill(id - 1);
+                    } else {
+                        printf("Invalid patient number\n");
+                    }
+                }
                 break;
             case 3:
                 printf("Sort triage -\n");

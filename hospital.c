@@ -72,6 +72,41 @@ void registerPatient() {
     printf("Patient registered\n");
 }
 
+void calculateBill(int i) {
+    int spec = patientSpec[i] - 1;
+    double fee = baseFee[spec];
+    double surcharge = 0;
+    double wardCost = 0;
+    double gross, discount, total;
+
+    // emergency surcharge
+    if (patientUrgency[i] == 2) {
+        surcharge = fee * 0.20;
+    } else if (patientUrgency[i] == 3) {
+        surcharge = fee * 0.50;
+    }
+
+    // ward cost
+    if (patientAdmitted[i] == 1) {
+        wardCost = patientDays[i] * wardRate[patientWard[i] - 1];
+    }
+
+    // gross total
+    gross = fee + surcharge + wardCost;
+
+    // age discount
+    if (patientAge[i] < 5 || patientAge[i] > 65) {
+        discount = gross * 0.15;
+    } else {
+        discount = 0;
+    }
+
+    // final
+    total = gross - discount;
+    patientBill[i] = total;
+}
+
+
 int main() {
     int choice;
 

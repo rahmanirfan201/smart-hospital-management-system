@@ -31,6 +31,47 @@ int patientDays[MAX];
 double patientBill[MAX];
 int patientCount = 0;
 
+void registerPatient() {
+    if (patientCount >= MAX) {
+        printf("Hospital full\n");
+        return;
+    }
+
+    int i = patientCount;
+
+    printf("Enter patient name: ");
+    getchar();
+    fgets(patientName[i], 50, stdin);
+    patientName[i][strlen(patientName[i]) - 1] = '\0';
+
+    printf("Enter age: ");
+    scanf("%d", &patientAge[i]);
+
+    printf("Enter urgency (1=Normal, 2=Urgent, 3=Critical): ");
+    scanf("%d", &patientUrgency[i]);
+
+    printf("Select specialty (1=OPD, 2=Paediatrics, 3=Cardiology, 4=Neurology): ");
+    scanf("%d", &patientSpec[i]);
+
+    printf("Admitted to ward? (1=Yes, 0=No): ");
+    scanf("%d", &patientAdmitted[i]);
+
+    if (patientAdmitted[i] == 1) {
+        printf("Enter ward (1=General, 2=Paediatric, 3=Surgical, 4=ICU): ");
+        scanf("%d", &patientWard[i]);
+
+        printf("Days admitted: ");
+        scanf("%d", &patientDays[i]);
+    } else {
+        patientWard[i] = 0;
+        patientDays[i] = 0;
+    }
+
+    queue[patientSpec[i] - 1]++;
+    patientCount++;
+    printf("Patient registered\n");
+}
+
 int main() {
     int choice;
 
@@ -48,7 +89,7 @@ int main() {
 
         switch (choice) {
             case 1:
-                printf("Register patient -\n");
+                registerPatient();
                 break;
             case 2:
                 printf("View bill -\n");

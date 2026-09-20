@@ -230,6 +230,11 @@ void sortByPriority() {
                 tempBill = patientBill[j];
                 patientBill[j] = patientBill[j + 1];
                 patientBill[j + 1] = tempBill;
+
+                int tempBed;
+                tempBed = patientBed[j];
+                patientBed[j] = patientBed[j + 1];
+                patientBed[j + 1] = tempBed;
             }
         }
     }

@@ -340,6 +340,26 @@ void saveBedStatus() {
     printf("Bed status saved to beds_status.txt\n");
 }
 
+void savePatientRecords() {
+    FILE *f = fopen("patient_records.txt", "w");
+    if (f == NULL) {
+        printf("Cannot open file\n");
+        return;
+    }
+
+    int i;
+    for (i = 0; i < patientCount; i++) {
+        calculateBill(i);
+        fprintf(f, "PAT-%d | %s | Age: %d | Urgency: %d | %s | LKR %.2f\n",
+            1001 + i, patientName[i], patientAge[i],
+            patientUrgency[i], specName[patientSpec[i] - 1],
+            patientBill[i]);
+    }
+
+    fclose(f);
+    printf("Records saved successfully\n");
+}
+
 
 int main() {
     int choice;
@@ -353,7 +373,8 @@ int main() {
         printf("3. Sort by Priority\n");
         printf("4. Summary Report\n");
         printf("5. Save Bed Status\n");
-        printf("6. Exit\n");
+        printf("6. Save Patient Records\n");
+        printf("7. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
@@ -385,6 +406,9 @@ int main() {
                 saveBedStatus();
                 break;
             case 6:
+                savePatientRecords();
+                break;
+            case 7:
                 printf("Goodbye!\n");
                 return 0;
             default:

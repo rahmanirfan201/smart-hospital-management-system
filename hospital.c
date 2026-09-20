@@ -143,7 +143,7 @@ void printBill(int i) {
     printf("\n");
     printf("Specialty               : %s\n", specName[spec]);
     if (patientAdmitted[i] == 1) {
-        printf("Assigned Ward           : %s\n", wardName[patientWard[i] - 1]);
+        printf("Assigned Ward           : %s (Bed #%02d)\n", wardName[patientWard[i] - 1], patientBed[i]);
     }
     printf("Urgency Level           : Level %d", patientUrgency[i]);
     if (patientUrgency[i] == 1) printf(" (Normal)");

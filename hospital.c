@@ -294,6 +294,18 @@ void summaryReport() {
     printf("Total Revenue  : LKR  %.2f\n", totalRevenue);
     printf("Total Discounts: LKR  %.2f\n", totalDiscount);
     printf("----------------------------------------------------\n");
+    printf("Bed Occupancy:\n");
+    int w, occupied;
+    for (w = 0; w < 4; w++) {
+        occupied = 0;
+        for (i = 0; i < wardBeds[w]; i++) {
+            if (beds[w][i] == 1) {
+                occupied++;
+            }
+        }
+        printf("  %s : %d/%d (%.1f%%)\n", wardName[w], occupied, wardBeds[w], (double)occupied / wardBeds[w] * 100);
+    }
+    printf("----------------------------------------------------\n");
     printf("Highest Paying Patient:\n");
     printf("  %s - LKR %.2f\n", patientName[highestIndex], patientBill[highestIndex]);
     printf("====================================================\n");

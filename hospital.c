@@ -320,7 +320,7 @@ int main() {
                 sortByPriority();
                 break;
             case 4:
-                printf("Summary -\n");
+                summaryReport();
                 break;
             case 5:
                 printf("Goodbye!\n");

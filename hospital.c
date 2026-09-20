@@ -316,6 +316,30 @@ void summaryReport() {
     printf("====================================================\n");
 }
 
+void saveBedStatus() {
+    FILE *f = fopen("beds_status.txt", "w");
+    if (f == NULL) {
+        printf("Cannot open file\n");
+        return;
+    }
+
+    int w, b;
+    for (w = 0; w < 4; w++) {
+        fprintf(f, "%s:\n", wardName[w]);
+        for (b = 0; b < wardBeds[w]; b++) {
+            if (beds[w][b] == 0) {
+                fprintf(f, "  Bed %02d: Available\n", b + 1);
+            } else {
+                fprintf(f, "  Bed %02d: Occupied\n", b + 1);
+            }
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+    printf("Bed status saved to beds_status.txt\n");
+}
+
 
 int main() {
     int choice;
@@ -328,7 +352,8 @@ int main() {
         printf("2. View Patient Bill\n");
         printf("3. Sort by Priority\n");
         printf("4. Summary Report\n");
-        printf("5. Exit\n");
+        printf("5. Save Bed Status\n");
+        printf("6. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
@@ -357,6 +382,9 @@ int main() {
                 summaryReport();
                 break;
             case 5:
+                saveBedStatus();
+                break;
+            case 6:
                 printf("Goodbye!\n");
                 return 0;
             default:

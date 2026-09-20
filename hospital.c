@@ -228,6 +228,61 @@ void sortByPriority() {
 }
 
 
+void summaryReport() {
+    int i;
+    int normal = 0, urgent = 0, critical = 0;
+    double totalRevenue = 0;
+    double totalDiscount = 0;
+    int highestIndex = 0;
+
+    if (patientCount == 0) {
+        printf("No patients registered\n");
+        return;
+    }
+
+    // count patients by urgency and find totals
+    for (i = 0; i < patientCount; i++) {
+        calculateBill(i);
+
+        if (patientUrgency[i] == 1) {
+            normal++;
+        } else if (patientUrgency[i] == 2) {
+            urgent++;
+        } else if (patientUrgency[i] == 3) {
+            critical++;
+        }
+
+        totalRevenue = totalRevenue + patientBill[i];
+
+        // check age discount
+        if (patientAge[i] < 5 || patientAge[i] > 65) {
+            double gross = patientBill[i] / 0.85;
+            totalDiscount = totalDiscount + (gross * 0.15);
+        }
+
+        // find highest paying patient
+        if (patientBill[i] > patientBill[highestIndex]) {
+            highestIndex = i;
+        }
+    }
+
+    printf("\n====================================================\n");
+    printf("         SUMMARY REPORT\n");
+    printf("====================================================\n");
+    printf("Total Patients : %d\n", patientCount);
+    printf("  Normal       : %d\n", normal);
+    printf("  Urgent       : %d\n", urgent);
+    printf("  Critical     : %d\n", critical);
+    printf("----------------------------------------------------\n");
+    printf("Total Revenue  : LKR  %.2f\n", totalRevenue);
+    printf("Total Discounts: LKR  %.2f\n", totalDiscount);
+    printf("----------------------------------------------------\n");
+    printf("Highest Paying Patient:\n");
+    printf("  %s - LKR %.2f\n", patientName[highestIndex], patientBill[highestIndex]);
+    printf("====================================================\n");
+}
+
+
 int main() {
     int choice;
 

@@ -28,6 +28,7 @@ int patientSpec[MAX];
 int patientAdmitted[MAX];
 int patientWard[MAX];
 int patientDays[MAX];
+int patientBed[MAX];
 double patientBill[MAX];
 int patientCount = 0;
 
@@ -62,9 +63,25 @@ void registerPatient() {
 
         printf("Days admitted: ");
         scanf("%d", &patientDays[i]);
+
+                // find a free bed
+        int b;
+        int ward = patientWard[i] - 1;
+        patientBed[i] = 0;
+        for (b = 0; b < wardBeds[ward]; b++) {
+            if (beds[ward][b] == 0) {
+                beds[ward][b] = 1;
+                patientBed[i] = b + 1;
+                break;
+            }
+        }
+        if (patientBed[i] == 0) {
+            printf("No beds available in this ward\n");
+        }
     } else {
         patientWard[i] = 0;
         patientDays[i] = 0;
+        patientBed[i] = 0;
     }
 
     queue[patientSpec[i] - 1]++;
